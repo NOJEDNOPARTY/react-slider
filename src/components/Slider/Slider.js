@@ -1,12 +1,18 @@
-import s from './Slider.module.scss';
-import Images from './Images/Images';
+import Slides from "./Slides";
+import styles from './Slider.module.scss';
 
-function Slider(){
-  return (
-    <div className={s.flip}>
-      <Images />
+
+const Slider = props => {
+  // const activeIndex = 0;
+  const slider = (
+    <div className={styles.flip}>
+      <div className={styles.flip_layout}> 
+        <Slides images={props.items} />
+      </div>
     </div>
-  );
-}
+  )
+
+  return slider;
+};
 
 export default Slider;
