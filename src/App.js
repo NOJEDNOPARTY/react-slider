@@ -1,5 +1,6 @@
 import './App.css';
 import Slider from './components/Slider/Slider';
+import PropTypes from 'prop-types';
 
 const App = () => {
   const images = [
@@ -11,15 +12,26 @@ const App = () => {
     '/images/6.jpg',
     '/images/7.jpg',
   ];
+  const settings = {
+    centerMode: true,
+    centerScale: 1.2,
+    centerElement: 3,
+    elementsView: 7
+  }
   return (
     <div className='App'>
       <section className='carousel'>
         <div className='wrapper'>
-          <Slider items={images} />
+          <Slider items={images} {...settings} />
         </div>
       </section>
     </div>
   );
 }
+
+
+App.propTypes = {
+  items: PropTypes.object
+};
 
 export default App;
