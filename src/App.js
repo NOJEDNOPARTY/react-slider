@@ -1,6 +1,5 @@
 import './App.css';
 import Slider from './components/Slider/Slider';
-import PropTypes from 'prop-types';
 
 const App = () => {
   const images = [
@@ -15,8 +14,8 @@ const App = () => {
   const settings = {
     centerMode: true,
     centerScale: 1.2,
-    centerElement: 3,
-    elementsView: 7
+    centerItemIndex: 4,
+    itemsPerView: 7,
   }
   return (
     <div className='App'>
@@ -28,10 +27,5 @@ const App = () => {
     </div>
   );
 }
-
-
-App.propTypes = {
-  items: PropTypes.object
-};
 
 export default App;
