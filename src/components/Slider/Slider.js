@@ -8,21 +8,24 @@ import { utils } from "./utils/Utils";
 
 const Slider = ({items, ...settings}) => {
   const settingsList = utils.settingsCheck(defaultSettings, settings);
-  const ref = useRef(0);
-  const [layoutWidth, setLayoutWidth] = useState(0);
-  const [layoutHeight, setLayoutHeight] = useState(0);
-  const [sizing, setSizing] = useState(0);
+  const ref = useRef(null);
+  const [layoutWidth, setLayoutWidth] = useState(1);
+  const [layoutHeight, setLayoutHeight] = useState(1);
+  const [sizing, setSizing] = useState(1);
   const [count, setCount] = useState(1);
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(1);
+  const [height, setHeight] = useState(1);
   const [itemsList, setItemsList] = useState([]);
+  const [itemsPerView, setItemsPerView] = useState(1);
   const resizeHandler = () => {
-    setLayoutWidth(ref.current.offsetWidth); 
-    setSizing(utils.findItemSize(layoutWidth, count));
+    setCount(ref.current.children.length);
+    setItemsPerView(settingsList.itemsPerView);
+    setSizing(utils.findItemSize(layoutWidth, itemsPerView)); 
+    console.log(sizing)
     setWidth(sizing);
     setHeight(sizing);
+    setLayoutWidth(ref.current.offsetWidth);
     setLayoutHeight(height * settingsList.centerScale);
-    setCount(ref.current.children.length);
     setItemsList([...ref.current.children]);
   };
 
@@ -43,7 +46,7 @@ const Slider = ({items, ...settings}) => {
           overflow: 'hidden',
           height: layoutHeight
         }}
-        className={styles.flip_layout} 
+        className={styles['flip-layout']} 
         ref={ref}
       > 
       {
@@ -58,10 +61,12 @@ const Slider = ({items, ...settings}) => {
                 index,
                 itemsList,
                 settingsList.centerItemIndex,
-                count,
                 settingsList.centerMode,
                 settingsList.centerScale,
-                settingsList.itemsPerView
+                settingsList.perspective,
+                settingsList.noCenterScale,
+                settingsList.leftRotate,
+                settingsList.rightRotate,
               )
             }
             image={image}

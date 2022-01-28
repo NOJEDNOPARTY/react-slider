@@ -14,8 +14,12 @@ const App = () => {
   const settings = {
     centerMode: true,
     centerScale: 1.2,
+    noCenterScale: 0.93,
     centerItemIndex: 4,
     itemsPerView: 7,
+    perspective: 400,
+    leftRotate: '30deg', 
+    rightRotate: '330deg', 
   }
   return (
     <div className='App'>

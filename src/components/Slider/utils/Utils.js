@@ -1,6 +1,6 @@
 export const utils = {
   findItemSize: (containerWidth, count) => {
-    return containerWidth / count;
+    return +(containerWidth / count);
   },
 
   settingsCheck: (defaultSettings, settings) => {
@@ -10,41 +10,62 @@ export const utils = {
     }
     for(let key in defaultSettings) {
       if(defaultSettings[key] !== settings[key]) {
-        settings[key] === undefined ? settingsChanged[key] = defaultSettings[key] : settingsChanged[key] = settings[key]
+        settings[key] === undefined ? settingsChanged[key] = defaultSettings[key] : settingsChanged[key] = settings[key];
       }
     }
     return settingsChanged;
   },
 
   positions: {
+
     indexChecking: (items, centerItemIndex) => {
-      const leftItems = [];
-      const rightItems = [];
-      items.forEach((item, index) => {
-        if(centerItemIndex > index+1) leftItems.push(index+1);
-        if(centerItemIndex === index+1) leftItems.push(index+1);
-        if(centerItemIndex < index+1) rightItems.push(index+1);
-      });
-      leftItems.sort((a, b) => b - a);
-      rightItems.sort((a, b) => b - a);
-      return [...leftItems, ...rightItems];
+      const leftCount = [];
+      const rightCount = [];
+      for(let i = 1; i <= items.length; i++) {
+        if (centerItemIndex > i)  leftCount.push(i);
+        if (centerItemIndex < i)  rightCount.push(i);
+      }
+      leftCount.forEach((item, index) =>  leftCount[index] = index + 2);
+      leftCount.reverse();
+      rightCount.forEach((item, index) => rightCount[index] = index + 1);
+
+      return [...leftCount, ...[1], ...rightCount];
     },
 
-    // почти готово, сейчас выводит массив с индексами нормально, но он выводит значения поочередно, а мне надо новый массив с 4,3,2,1,2,3,4 - что бы элементы получили нужные индексы для отоборажения.
+    // transform:  perspective(400px) rotate3d(0, 1, 0, 30deg) scale(0.93); 
 
-    calc: (width, height, index, items, centerItemIndex, itemsLength, centerMode, centerScale, itemsPerView) => {
-      let indexed = 0;
+    calc: (width, height, index, items, centerItemIndex, centerMode, centerScale, perspective, noCenterScale, leftRotate, rightRotate) => {
+      let multiplier = null;
+      let setPosition = null;
+      let transform = null;
+      let scale = 1;
+
       if(centerMode === true) {
         const indexChecked = utils.positions.indexChecking(items, centerItemIndex);
-        indexed = indexChecked[index];
+        multiplier = indexChecked[index];
+
+        (index+1 <= centerItemIndex) ? setPosition = utils.positions.left(width, multiplier) :
+        (index+1 > centerItemIndex) ?  setPosition = utils.positions.right(width, multiplier) :
+        setPosition = utils.positions.left(width, multiplier);
+
+        transform = '';
+
+        console.log(transform)
+
+
       }
+
+      
 
       return {
         position: 'absolute',
+        display: 'block',
+        overflow: 'hidden',
         width: width,
         height: height,
         top: utils.positions.top(height),
-        left: utils.positions.left(width, indexed),
+        left: setPosition,
+        transform: transform,
       };
     },
 
@@ -55,13 +76,19 @@ export const utils = {
     top: (height) => {
       return `calc(50% - ${height / 2}px)`;
     },
-    
-    left: (width, index) => {
-      return index === 0 ? 0 : `calc(50% - ${(width * index) / 2}px)`;
+
+    left: (width, multiplier) => {
+      return multiplier === 0 ? 0 : `calc(50% - ${(width * multiplier) - (width / 2)}px)`;
     },
-    
-    right: (width, index) => {
-      return index === 0 ? 0 : `calc(50% + ${(width * index) / 2}px)`;
+
+    right: (width, multiplier) => {
+      return multiplier === 0 ? 0 : `calc(50% + ${(width * multiplier) - (width / 2)}px)`;
     },
+
+    //  создать трансформ в зависимости в центре или селва элемент, так же просмотреть вариант того что может и отключен центральный мод. Потом можно сдеелать через стейт по клику менять индекс который посылается как активный слайд, таким образом сделать переключение между слайдами.
+
+    // transform: (index, centerItemIndex, perspective, noCenterScale, centerScale, leftRotate, rightRotate) => {
+    //   return `perspective(${perspective}px) rotate3d(0, 1, 0, 30deg) scale(${noCenterScale})`
+    // },
   },
 };

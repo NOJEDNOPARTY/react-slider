@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const SliderItem = ({style, image, index}) => {
   return (
     <div 
-      className={styles.flip_img} 
+      className={styles['flip-img']} 
       style={style}
     >
       <img
