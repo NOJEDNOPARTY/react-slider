@@ -1,8 +1,10 @@
 .flip {
   width: 100%;
   overflow: hidden;
-  &-img {
-    border-radius: 25px;
+  &-layout {
+    width: 100%;
+  }
+  &-item {
     & img {
       position: absolute;
       top: 0;
@@ -12,6 +14,42 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+  &-active {
+    
+  }
+  &-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  &-dot {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 10px;
+    min-width: 10px;
+    margin-top: 20px;
+    background-color: #bdbdbd;
+    border-radius: 50%;
+    font-size: 0;
+    line-height: 0;
+    color: transparent;
+    transition: 0.7s ease-in-out;
+    &:not(:last-child) {
+      margin-right: 7px;
+    }
+    &:hover {
+      @media (min-width: 1200px) {
+        background-color: #ff0000;
+      }
+    }
+    &-active {
+      background-color: #ff0000;
     }
   }
 }

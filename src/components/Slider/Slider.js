@@ -1,4 +1,5 @@
 import SliderItem from "./SliderItem";
+import SliderDot from "./SliderDot";
 import styles from './Slider.module.scss';
 import { useState, useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
@@ -12,68 +13,89 @@ const Slider = ({items, ...settings}) => {
   const [layoutWidth, setLayoutWidth] = useState(1);
   const [layoutHeight, setLayoutHeight] = useState(1);
   const [sizing, setSizing] = useState(1);
-  const [count, setCount] = useState(1);
   const [width, setWidth] = useState(1);
   const [height, setHeight] = useState(1);
   const [itemsList, setItemsList] = useState([]);
   const [itemsPerView, setItemsPerView] = useState(1);
+  const [scaleCenter, setScaleCenter] = useState(1);
+  const [intermediate, setScaleIntermediate] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(1);
   const resizeHandler = () => {
-    setCount(ref.current.children.length);
+    setActiveIndex(settingsList.centerItemIndex);
     setItemsPerView(settingsList.itemsPerView);
     setSizing(utils.findItemSize(layoutWidth, itemsPerView)); 
-    console.log(sizing)
     setWidth(sizing);
     setHeight(sizing);
     setLayoutWidth(ref.current.offsetWidth);
     setLayoutHeight(height * settingsList.centerScale);
     setItemsList([...ref.current.children]);
+    setScaleCenter(settingsList.centerScale);
+    setScaleIntermediate(settingsList.noCenterScale);
   };
-
 
   useEffect(() => {
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   });
-  
+
+  const dotsViewer = () =>{
+    return settingsList.dots === false ? null : (
+      <div className={styles['flip-dots']}>
+        {
+          items.map((item, index) => {
+            return <SliderDot
+              key={index}
+              index={index}
+              indexChanger={setActiveIndex}
+              activeItem = {activeIndex}
+            />
+          })
+        }
+      </div>
+    )
+  };
 
   return (
     <div className={styles.flip}>
       <div 
         onLoad={resizeHandler} 
+        className={styles['flip-layout']} 
         style={{
           position: 'relative',
           width: '100%',
           overflow: 'hidden',
           height: layoutHeight
         }}
-        className={styles['flip-layout']} 
         ref={ref}
       > 
-      {
-        items.map((image, index) => {
-          return <SliderItem
-            key={index}
-            index={index}
-            style={
-              utils.positions.calc(
-                width, 
-                height, 
-                index,
-                itemsList,
-                settingsList.centerItemIndex,
-                settingsList.centerMode,
-                settingsList.centerScale,
-                settingsList.perspective,
-                settingsList.noCenterScale,
-                settingsList.leftRotate,
-                settingsList.rightRotate,
-              )
-            }
-            image={image}
-          />
-        })
-      }
-    </div>
+        {
+          items.map((image, index) => {
+            return <SliderItem
+              key={index}
+              index={index}
+              indexChanger={setActiveIndex}
+              activeItem = {activeIndex}
+              style={
+                utils.positions.calc(
+                  width, 
+                  height, 
+                  index,
+                  itemsList,
+                  activeIndex,
+                  settingsList.centerMode,
+                  scaleCenter,
+                  settingsList.perspective,
+                  intermediate,
+                  settingsList.leftRotate,
+                  settingsList.rightRotate,
+                )
+              }
+              image={image}
+            />
+          })
+        }
+      </div>
+      {dotsViewer()}
     </div>
   );
 };

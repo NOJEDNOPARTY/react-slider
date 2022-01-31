@@ -13,13 +13,14 @@ const App = () => {
   ];
   const settings = {
     centerMode: true,
-    centerScale: 1.2,
-    noCenterScale: 0.93,
+    dots: true,
+    centerScale: 1.3,
+    noCenterScale: 1,
     centerItemIndex: 4,
     itemsPerView: 7,
     perspective: 400,
-    leftRotate: '30deg', 
-    rightRotate: '330deg', 
+    leftRotate: '35deg', 
+    rightRotate: '-35deg', 
   }
   return (
     <div className='App'>

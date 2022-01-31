@@ -1,6 +1,6 @@
 export const utils = {
-  findItemSize: (containerWidth, count) => {
-    return +(containerWidth / count);
+  findItemSize: (containerWidth, itemsPerView) => {
+    return +(containerWidth / itemsPerView);
   },
 
   settingsCheck: (defaultSettings, settings) => {
@@ -32,25 +32,27 @@ export const utils = {
       return [...leftCount, ...[1], ...rightCount];
     },
 
-    // transform:  perspective(400px) rotate3d(0, 1, 0, 30deg) scale(0.93); 
-
     calc: (width, height, index, items, centerItemIndex, centerMode, centerScale, perspective, noCenterScale, leftRotate, rightRotate) => {
-      let multiplier = null;
-      let setPosition = null;
-      let transform = null;
-      let scale = 1;
+      let multiplier = null || 1;
+      let setPosition;
+      let transform;
+      let shift = 0;
 
       if(centerMode === true) {
         const indexChecked = utils.positions.indexChecking(items, centerItemIndex);
         multiplier = indexChecked[index];
 
-        (index+1 <= centerItemIndex) ? setPosition = utils.positions.left(width, multiplier) :
-        (index+1 > centerItemIndex) ?  setPosition = utils.positions.right(width, multiplier) :
-        setPosition = utils.positions.left(width, multiplier);
+        if (index+1 <= centerItemIndex) {
+          (index+1 === centerItemIndex) ? setPosition = utils.positions.left(width, multiplier, shift) :
+          setPosition = utils.positions.left(width, multiplier, shift);
 
-        transform = '';
-
-        console.log(transform)
+          (index+1 === centerItemIndex) ? transform = utils.positions.transform(perspective, centerScale, '0deg') : 
+          transform = utils.positions.transform(perspective, noCenterScale, leftRotate);
+        };
+        if (index+1 > centerItemIndex) {
+          setPosition = utils.positions.right(width, multiplier);
+          transform = utils.positions.transform(perspective, noCenterScale, rightRotate);
+        };
 
 
       }
@@ -58,6 +60,7 @@ export const utils = {
       
 
       return {
+        cursor: 'pointer',
         position: 'absolute',
         display: 'block',
         overflow: 'hidden',
@@ -66,29 +69,24 @@ export const utils = {
         top: utils.positions.top(height),
         left: setPosition,
         transform: transform,
+        transition: '0.7s ease-in-out',
       };
-    },
-
-    center: (count, item) => {
-
     },
     
     top: (height) => {
       return `calc(50% - ${height / 2}px)`;
     },
 
-    left: (width, multiplier) => {
-      return multiplier === 0 ? 0 : `calc(50% - ${(width * multiplier) - (width / 2)}px)`;
+    left: (width, multiplier, shift) => {
+      return multiplier === 0 ? 0 : `calc(50% - ${((width * multiplier) - (width / 2))}px)`;
     },
 
     right: (width, multiplier) => {
       return multiplier === 0 ? 0 : `calc(50% + ${(width * multiplier) - (width / 2)}px)`;
     },
 
-    //  создать трансформ в зависимости в центре или селва элемент, так же просмотреть вариант того что может и отключен центральный мод. Потом можно сдеелать через стейт по клику менять индекс который посылается как активный слайд, таким образом сделать переключение между слайдами.
-
-    // transform: (index, centerItemIndex, perspective, noCenterScale, centerScale, leftRotate, rightRotate) => {
-    //   return `perspective(${perspective}px) rotate3d(0, 1, 0, 30deg) scale(${noCenterScale})`
-    // },
+    transform: (perspective, scale, rotate) => {
+      return `perspective(${perspective}px) rotate3d(0, 1, 0, ${rotate}) scale(${scale})`;
+    },
   },
 };
