@@ -12,37 +12,11 @@ const App = () => {
     '/images/6.jpg',
     '/images/7.jpg',
   ];
-  const settings = {
-    centerMode: true,
-    dots: true,
-    centerScale: 1.2,
-    noCenterScale: 1,
-    centerItemIndex: 4,
-    itemsPerView: 7,
-    perspective: 400,
-    leftRotate: '35deg', 
-    rightRotate: '-35deg', 
-    breakpoints: [
-      {
-        breakpoint: 0,
-        settings: {
-          dots: false,
-          itemsPerView: 3,
-        },
-      },
-      {
-        breakpoint: 1000,
-        settings: {
-          dots: true,
-        },
-      },
-    ],
-  }
   return (
     <div className='App'>
       <section className='carousel'>
         <div className='wrapper'>
-          <Slider items={images} {...settings} />
+          <Slider/>
         </div>
       </section>
     </div>
