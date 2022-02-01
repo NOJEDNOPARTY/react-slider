@@ -8,5 +8,6 @@ export const defaultSettings = {
   itemsPerView: 3,
   perspective: 400,
   leftRotate: '30deg', 
-  rightRotate: '-30deg', 
+  rightRotate: '-30deg',
+  breakpoints: [],
 }

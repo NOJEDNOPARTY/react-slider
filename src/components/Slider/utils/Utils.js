@@ -2,6 +2,15 @@ export const utils = {
   findItemSize: (containerWidth, itemsPerView) => {
     return +(containerWidth / itemsPerView);
   },
+  
+
+  getWindowDimensions: () => {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height
+    };
+  },
 
   settingsCheck: (defaultSettings, settings) => {
     const settingsChanged = {...defaultSettings};
@@ -14,6 +23,22 @@ export const utils = {
       }
     }
     return settingsChanged;
+  },
+
+  breakPointsHandler: (bp, settingsList, updateSettings, windowWidth) => {
+    if(bp.length > 0) {
+      let breakpoints = bp.map(breakpt => breakpt.breakpoint);
+      breakpoints.sort((x, y) => y - x);
+      let breakpoint = breakpoints.find(bp => bp <= windowWidth);
+      let newSettings = {};
+      for(let key in settingsList.breakpoints){
+        if(settingsList.breakpoints[key].breakpoint === breakpoint) {
+          newSettings = settingsList.breakpoints[key].settings;
+          return updateSettings(utils.settingsCheck(settingsList, newSettings));
+        }
+      }
+
+    }
   },
 
   positions: {

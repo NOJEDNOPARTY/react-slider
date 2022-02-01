@@ -1,3 +1,4 @@
+import React  from 'react';
 import SliderItem from "./SliderItem";
 import SliderDot from "./SliderDot";
 import styles from './Slider.module.scss';
@@ -8,7 +9,7 @@ import { utils } from "./utils/Utils";
 
 
 const Slider = ({items, ...settings}) => {
-  const settingsList = utils.settingsCheck(defaultSettings, settings);
+  const [settingsList, setSettingsList] = useState(utils.settingsCheck(defaultSettings, settings));
   const ref = useRef(null);
   const [layoutWidth, setLayoutWidth] = useState(1);
   const [layoutHeight, setLayoutHeight] = useState(1);
@@ -20,6 +21,14 @@ const Slider = ({items, ...settings}) => {
   const [scaleCenter, setScaleCenter] = useState(1);
   const [intermediate, setScaleIntermediate] = useState(1);
   const [activeIndex, setActiveIndex] = useState(1);
+  const [windowDimensions, setWindowDimensions] = useState(utils.getWindowDimensions);
+  const [centerMode, setCenterMode] = useState(1);
+  const [perspective, setPerspective] = useState(1);
+  const [leftRotate, setLeftRotate] = useState(1);
+  const [rightRotate, setRightRotate] = useState(1);
+  const [dots, setDots] = useState(false);
+  const [breakPoints, setBreakPoints] = useState([]);
+  
   const resizeHandler = () => {
     setActiveIndex(settingsList.centerItemIndex);
     setItemsPerView(settingsList.itemsPerView);
@@ -31,15 +40,24 @@ const Slider = ({items, ...settings}) => {
     setItemsList([...ref.current.children]);
     setScaleCenter(settingsList.centerScale);
     setScaleIntermediate(settingsList.noCenterScale);
+    setCenterMode(settingsList.centerMode);
+    setPerspective(settingsList.perspective);
+    setLeftRotate(settingsList.leftRotate);
+    setRightRotate(settingsList.rightRotate);
+    setDots(settingsList.dots);
+    setBreakPoints(settingsList.breakpoints);
+
+    setWindowDimensions(utils.getWindowDimensions);
+    utils.breakPointsHandler(breakPoints, settingsList, setSettingsList, windowDimensions.width);
   };
 
   useEffect(() => {
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
-  });
+  }, [settingsList]);
 
   const dotsViewer = () =>{
-    return settingsList.dots === false ? null : (
+    return dots === false ? null : (
       <div className={styles['flip-dots']}>
         {
           items.map((item, index) => {
@@ -55,6 +73,7 @@ const Slider = ({items, ...settings}) => {
     )
   };
 
+  console.count();
   return (
     <div className={styles.flip}>
       <div 
@@ -82,12 +101,12 @@ const Slider = ({items, ...settings}) => {
                   index,
                   itemsList,
                   activeIndex,
-                  settingsList.centerMode,
+                  centerMode,
                   scaleCenter,
-                  settingsList.perspective,
+                  perspective,
                   intermediate,
-                  settingsList.leftRotate,
-                  settingsList.rightRotate,
+                  leftRotate,
+                  rightRotate,
                 )
               }
               image={image}

@@ -1,3 +1,4 @@
+import React  from 'react';
 import './App.css';
 import Slider from './components/Slider/Slider';
 
@@ -14,13 +15,28 @@ const App = () => {
   const settings = {
     centerMode: true,
     dots: true,
-    centerScale: 1.3,
+    centerScale: 1.2,
     noCenterScale: 1,
     centerItemIndex: 4,
     itemsPerView: 7,
     perspective: 400,
     leftRotate: '35deg', 
     rightRotate: '-35deg', 
+    breakpoints: [
+      {
+        breakpoint: 0,
+        settings: {
+          dots: false,
+          itemsPerView: 3,
+        },
+      },
+      {
+        breakpoint: 1000,
+        settings: {
+          dots: true,
+        },
+      },
+    ],
   }
   return (
     <div className='App'>

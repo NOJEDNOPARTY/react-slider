@@ -1,3 +1,4 @@
+import React  from 'react';
 import styles from './Slider.module.scss';
 import PropTypes from 'prop-types';
 
@@ -25,8 +26,10 @@ const SliderItem = ({style, image, indexChanger, index, activeItem}) => {
 
 SliderItem.propTypes = {
   style: PropTypes.object,
+  indexChanger: PropTypes.func,
   image: PropTypes.string,
   index: PropTypes.number,
+  activeItem: PropTypes.number,
 };
 
 export default SliderItem;

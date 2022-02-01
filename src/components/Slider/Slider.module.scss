@@ -5,6 +5,7 @@
     width: 100%;
   }
   &-item {
+    border-radius: 25px;
     & img {
       position: absolute;
       top: 0;
@@ -17,13 +18,14 @@
     }
   }
   &-active {
-    
+    opacity: 1;
   }
   &-dots {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
+    transition: 0.7s ease-in-out;
   }
   &-dot {
     cursor: pointer;
