@@ -1,26 +1,31 @@
 import React  from 'react';
 import './App.css';
-import Slider from './components/Slider/Slider';
+import CarouselCover from './components/Carousel/CarouselCover';
 
 const App = () => {
   const images = [
-    '/images/1.jpg',
-    '/images/2.jpg',
-    '/images/3.jpg',
-    '/images/4.jpg',
-    '/images/5.jpg',
-    '/images/6.jpg',
-    '/images/7.jpg',
+    {src: '/images/1.jpg', alt: '1'},
+    {src: '/images/2.jpg', alt: '2'},
+    {src: '/images/3.jpg', alt: '3'},
+    {src: '/images/4.jpg', alt: '4'},
+    {src: '/images/5.jpg', alt: '5'},
+    {src: '/images/6.jpg', alt: '6'},
+    {src: '/images/7.jpg', alt: '7'},
   ];
+  const settings = {
+    activeItem: 3,
+    dots: true,
+  }
   return (
     <div className='App'>
       <section className='carousel'>
         <div className='wrapper'>
-          <Slider/>
+          <CarouselCover items={images} {...settings}/>
         </div>
       </section>
     </div>
   );
 }
+
 
 export default App;

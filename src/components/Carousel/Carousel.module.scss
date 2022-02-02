@@ -1,11 +1,31 @@
-.flip {
+$itemWidth: 400px;
+$itemHeight: 400px;
+
+.flp {
+  position: relative;
   width: 100%;
   overflow: hidden;
   &-layout {
+    position: relative;
     width: 100%;
+    min-height: $itemHeight;
+    perspective: 2000px;
+    perspective-origin: center;
   }
   &-item {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -($itemWidth / 2);
+    margin-top:  -($itemHeight / 2);
+    width: $itemWidth;
+    height: $itemHeight;
     border-radius: 25px;
+    transition: all 0.45s ease-in-out;
+    &-active {
+      color: transparent;
+    }
     & img {
       position: absolute;
       top: 0;
