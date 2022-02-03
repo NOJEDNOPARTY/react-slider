@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import styles from './Carousel.module.scss';
 
-const CarouselItem = ({item, style, goTo, index, activeItem}) => {
+const CarouselItem = ({ item, style, goTo, index, activeItem }) => {
   return (
     <div 
-      className={`${styles['flp-item']} ${index === activeItem ? styles['flp-item-active'] : ''}`} 
+      className={`${styles.item} ${index === activeItem ? styles.active : ''}`} 
       style={style} 
       onClick={goTo}
     >
       <img src={item.src} alt={item.alt} />
     </div>
-  )
+  );
 };
 
 CarouselItem.propTypes = {
