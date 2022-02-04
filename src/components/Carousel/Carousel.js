@@ -5,8 +5,9 @@ import styles from './Carousel.module.scss';
 import CarouselItem from './CarouselItem';
 import { getTransformStyles, handleWheel } from './utils/utils';
 
-const Carousel = ({ items, activeItem, goTo, ...settings }) => {
+const Carousel = ({ items, activeItem, goTo, settings }) => {
   const toggleWheel = useRef(true);
+
   return (
     <div 
       className={styles.layout}
@@ -21,7 +22,7 @@ const Carousel = ({ items, activeItem, goTo, ...settings }) => {
               index={i}
               activeItem={activeItem}
               key={i}
-              style={getTransformStyles(i - activeItem, items.length, settings.centerMode)}
+              style={getTransformStyles(i - activeItem, items.length, settings)}
               goTo={() => goTo(i)}
             />
           );
