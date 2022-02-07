@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import './App.css';
 import CarouselCover from './components/Carousel/CarouselCover';
 
@@ -31,25 +31,28 @@ const App = () => {
       perspectiveOrigin: 'center',
       translateX: {
         startShift: 50,
-        shift: 25,
+        shift: 15,
       },
     },
     breakpoints: [
+      // min-width
       {
         breakpoint: 0,
         settings: {
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          dots: false,
           arrows: false,
+          itemHeight: 150,
+          itemWidth: 150,
         },
       },
       {
-        breakpoint: 993,
+        breakpoint: 600,
+        settings: {
+          itemHeight: 300,
+          itemWidth: 300,
+        },
+      },
+      {
+        breakpoint: 992,
         settings: {},
       },
     ],

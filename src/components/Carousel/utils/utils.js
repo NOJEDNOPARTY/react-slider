@@ -10,7 +10,7 @@ export const getTransformStyles = ( shift, itemsCount, settings ) => {
   };
 };
 
-export const getSize = stngs => {
+export const getStyles = stngs => {
   return { 
     '--topPosition': '50%', 
     '--leftPosition': `${stngs.centerMode === true ? 50 : 0}%`,
@@ -37,14 +37,16 @@ export const handleWheel = ( e, activeItem, toggleWheel, length, goTo ) => {
 
 export const breakPointsHandler = (startSettings, settings, windowWidth, setSettings) => {
   if(settings.breakpoints.length > 0) {
-    const breakpoints = settings.breakpoints.map(breakpt => breakpt.breakpoint);
-    breakpoints.sort((x, y) => y - x);
+    const breakpoints = settings.breakpoints
+      .map(breakpt => breakpt.breakpoint)
+      .sort((x, y) => y - x);
     const breakpoint = breakpoints.find(bp => bp <= windowWidth);
     for(const key in settings.breakpoints){
       if(settings.breakpoints[key].breakpoint === breakpoint) {
         const changedSettings = windowWidth > settings.breakpoints[settings.breakpoints.length - 1].breakpoint 
-          ? { ...startSettings, ...settings } 
+          ? { ...startSettings, ...settings, ...settings.breakpoints[key].settings } 
           : { ...settings, ...settings.breakpoints[key].settings };
+        
         return setSettings(changedSettings);
       }
     }

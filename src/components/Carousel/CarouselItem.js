@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 import styles from './Carousel.module.scss';
 
 const CarouselItem = ({ item, style, goTo, index, activeItem }) => {
@@ -21,4 +22,4 @@ CarouselItem.propTypes = {
   activeItem: PropTypes.number,
 };
 
-export default CarouselItem;
+export default memo(CarouselItem);

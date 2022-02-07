@@ -15,6 +15,7 @@ $orangeLighter: #d72344;
   min-height: var(--layoutHeight);
   perspective: var(--layoutPerspective);
   perspective-origin: var(--layoutPerspectiveOrigin);
+  transition: all 0.45s ease-in-out;
 }
 
 .item {
@@ -27,6 +28,7 @@ $orangeLighter: #d72344;
   margin-left: var(--itemMarginLeft);
   margin-top: var(--itemMarginTop);
   border-radius: 25px;
+  overflow: hidden;
   transition: all 0.45s ease-in-out;
   &.active {
     color: transparent;
@@ -66,8 +68,17 @@ $orangeLighter: #d72344;
   line-height: 0;
   color: transparent;
   transition: 0.7s ease-in-out;
+  @media (max-width: 767px) {
+    width: 7px;
+    height: 7px;
+    min-width: 7px;
+    margin-top: 10px;
+  }
   &:not(:last-child) {
     margin-right: 7px;
+    @media (max-width: 767px) {
+      margin-right: 5px;
+    }
   }
   &:hover {
     @media (min-width: 1200px) {
@@ -96,6 +107,12 @@ $orangeLighter: #d72344;
   box-shadow: none;
   outline: none;
   transition: 0.2s linear 0.1s;
+  @media (max-width: 767px) {
+    top: calc(50% - 15px);
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+  }
   &:hover {
     @media (min-width: 1200px) {
       background-color: $orangeLighter;
@@ -120,6 +137,10 @@ $orangeLighter: #d72344;
   & svg {
     width: 20px;
     height: 20px;
+    @media (max-width: 767px) {
+      width: 12px;
+      height: 12px;
+    }
     & path {
       fill: $white;
       transition: 0.3s ease;
