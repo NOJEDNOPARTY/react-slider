@@ -10,17 +10,17 @@ export const getTransformStyles = ( shift, itemsCount, settings ) => {
   };
 };
 
-export const getStyles = stngs => {
+export const getStyles = settings => {
   return { 
     '--topPosition': '50%', 
-    '--leftPosition': `${stngs.centerMode === true ? 50 : 0}%`,
-    '--itemWidth': `${stngs.itemWidth}px`,
-    '--itemHeight': `${stngs.itemHeight}px`,
-    '--itemMarginLeft': `-${stngs.centerMode === true ? stngs.itemWidth / 2 : 0}px`,
-    '--itemMarginTop': `-${stngs.itemHeight / 2}px`,
-    '--layoutPerspective': `${stngs.transform.perspective}`,
-    '--layoutPerspectiveOrigin': `${stngs.transform.perspectiveOrigin}`,
-    '--layoutHeight': `${(stngs.transform.scale.active > stngs.transform.scale.noActive ? stngs.transform.scale.active : stngs.transform.scale.noActive) * stngs.itemHeight}px`,
+    '--leftPosition': `${settings.centerMode === true ? 50 : 0}%`,
+    '--itemWidth': `${settings.itemWidth}px`,
+    '--itemHeight': `${settings.itemHeight}px`,
+    '--itemMarginLeft': `-${settings.centerMode === true ? settings.itemWidth / 2 : 0}px`,
+    '--itemMarginTop': `-${settings.itemHeight / 2}px`,
+    '--layoutPerspective': `${settings.transform.perspective}`,
+    '--layoutPerspectiveOrigin': `${settings.transform.perspectiveOrigin}`,
+    '--layoutHeight': `${(settings.transform.scale.active > settings.transform.scale.noActive ? settings.transform.scale.active : settings.transform.scale.noActive) * settings.itemHeight}px`,
   };
 };
 
@@ -44,9 +44,9 @@ export const breakPointsHandler = (startSettings, settings, windowWidth, setSett
     for(const key in settings.breakpoints){
       if(settings.breakpoints[key].breakpoint === breakpoint) {
         const changedSettings = windowWidth > settings.breakpoints[settings.breakpoints.length - 1].breakpoint 
-          ? { ...startSettings, ...settings, ...settings.breakpoints[key].settings } 
+          ? { ...startSettings, ...settings.breakpoints[key].settings } 
           : { ...settings, ...settings.breakpoints[key].settings };
-        
+
         return setSettings(changedSettings);
       }
     }

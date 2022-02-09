@@ -7,12 +7,12 @@ import CarouselArrows from './CarouselArrows';
 import { defaultSettings } from './utils/settings';
 import { getStyles, breakPointsHandler } from './utils/utils';
 
-const CarouselCover = ({ items, ...stngs }) => { 
-  const [settings, setSettings] = useState({ ...defaultSettings, ...stngs });
+const CarouselCover = ({ items, ...startSettings }) => { 
+  const [settings, setSettings] = useState({ ...defaultSettings, ...startSettings });
   const [activeItem, setActiveItem] = useState(items.length < settings.activeItem ? Math.ceil((items.length - 1) / 2) : settings.activeItem);
   const stylesData = getStyles(settings);
   const resizeHandler = () => {
-    breakPointsHandler(stngs, settings, window.innerWidth, setSettings);
+    breakPointsHandler(startSettings, settings, window.innerWidth, setSettings);
   };
 
   useEffect(() => {
